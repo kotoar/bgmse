@@ -4,25 +4,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import android.widget.ListView;
 
 import com.kanae.bgmse.R;
+import com.kanae.bgmse.magnet.Magnet;
+import com.kanae.bgmse.magnet.MagnetAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceholderFragment extends Fragment {
+public class Fragment3 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private PageViewModel pageViewModel;
+    private MagnetAdapter magnetAdapter;
+    private List<Magnet> magnetList = new ArrayList<>();
+    private ListView magnetListView;
+    //private FragmentRefreshFmInVpBinding binding;
+
 
     private int cursel;
     private int getIndex(){
@@ -34,8 +39,8 @@ public class PlaceholderFragment extends Fragment {
     }
 
 
-    public static PlaceholderFragment newInstance(int index) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+    public static Fragment3 newInstance(int index) {
+        Fragment3 fragment = new Fragment3();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -45,9 +50,11 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         cursel = getIndex();
-        pageViewModel.setIndex(cursel);
+        magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
+
+
+
     }
 
     @Override
@@ -55,17 +62,18 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         cursel = getIndex();
-        if(cursel == 1){
-            View root1 = inflater.inflate(R.layout.fragment_tab1, container, false);
-            //final TextView textView = root1.findViewById(R.id.section_label);
-            return root1;
-        }
-        if(cursel == 2){
-            View root2 = inflater.inflate(R.layout.fragment_tab2, container, false);
-            return root2;
-        }
-        View root3 = inflater.inflate(R.layout.fragment_tab3, container, false);
-        return root3;
+        View view = inflater.inflate(R.layout.fragment_tab3, container, false);
+
+        return view;
 
     }
+
+    private void initView(){
+        for(int i=0;i<20;i++){
+            magnetList.add(new Magnet("label"+i,"conten"+i,Magnet.TYPE_BGM));
+        }
+        magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
+
+    }
+
 }

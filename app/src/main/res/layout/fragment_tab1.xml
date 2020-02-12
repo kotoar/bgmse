@@ -5,11 +5,20 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.PlaceholderFragment">
+    tools:context=".ui.main.Fragment1">
 
     <LinearLayout
+        android:id="@+id/fraglayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"/>
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView00"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

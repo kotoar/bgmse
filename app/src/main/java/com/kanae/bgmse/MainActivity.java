@@ -13,20 +13,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kanae.bgmse.magnet.Magnet;
 import com.kanae.bgmse.ui.main.SectionsPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    ViewPager viewPager;
+    TabLayout tablayout;
+    FloatingActionButton fab;
+    SectionsPagerAdapter sectionsPagerAdapter;
+
+    //private ActivityRefreshFmInVpBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = findViewById(R.id.fab);
+
+        initViewPager();
+
+        fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,4 +45,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initViewPager(){
+        tablayout = (TabLayout)findViewById(R.id.tabs);
+        viewPager = (ViewPager)findViewById(R.id.view_pager);
+        tablayout.setupWithViewPager(viewPager);
+
+        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        viewPager.setAdapter(sectionsPagerAdapter);
+
+        tablayout.setupWithViewPager(viewPager);
+
+        viewPager.setOffscreenPageLimit(2);
+    }
+
 }
