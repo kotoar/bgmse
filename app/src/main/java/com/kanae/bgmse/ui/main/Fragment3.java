@@ -8,7 +8,6 @@ import android.widget.ListView;
 
 import com.kanae.bgmse.R;
 import com.kanae.bgmse.magnet.Magnet;
-import com.kanae.bgmse.magnet.MagnetAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Fragment3 extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private MagnetAdapter magnetAdapter;
+    //private MagnetAdapter magnetAdapter;
     private List<Magnet> magnetList = new ArrayList<>();
     private ListView magnetListView;
     //private FragmentRefreshFmInVpBinding binding;
@@ -51,7 +50,7 @@ public class Fragment3 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cursel = getIndex();
-        magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
+        //magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
 
 
 
@@ -72,7 +71,7 @@ public class Fragment3 extends Fragment {
         for(int i=0;i<20;i++){
             magnetList.add(new Magnet("label"+i,"conten"+i,Magnet.TYPE_BGM));
         }
-        magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
+        //magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
 
     }
 
