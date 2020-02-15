@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.kanae.bgmse.file.FileAddActivity;
+import com.kanae.bgmse.file.MagnetSaver;
 import com.kanae.bgmse.magnet.Magnet;
 import com.kanae.bgmse.ui.main.SectionsPagerAdapter;
 
@@ -51,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     String main_path;
+
+    MagnetSaver magnetSaver = new MagnetSaver();
+
     //private ActivityRefreshFmInVpBinding binding;
 
     @Override
@@ -107,78 +111,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFile(){
-        File file = new File(main_path + File.separator+"/datactrl");
+        File file = new File(main_path + "/mainlist.txt");
+        File parentpath = new File(main_path);
+        if(!parentpath.exists()){
+            parentpath.mkdirs();
+        }
         if(!file.exists()){
-            InputStream inputStream = getResources().openRawResource(R.raw.init_music_list);
-            List<Magnet> init_pool = new ArrayList<>();
-            try {
-                InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader br = new BufferedReader(isr);
-                String string = "";
-                String label="", content="";
-                int type;
-
-                int i=0;
-                while ((string = br.readLine()) != null) {
-                    i++;
-                    if(i%3==1){
-                        label = string;
-                    }
-                    if(i%3==2){
-                        content = string;
-                    }
-                    if(i%3==0){
-                        type = Integer.valueOf(string).intValue();
-                        Magnet magnet = new Magnet(label,content,type);
-                        init_pool.add(magnet);
-                    }
-                }
 
 
-                File osfile = new File(main_path + File.separator +"/datactrl/main_list.txt");
-                File osParent = osfile.getParentFile();
-                osParent.mkdirs();
-                osfile.createNewFile();
-                FileOutputStream fos = new FileOutputStream(osfile);
-                for(Magnet m:init_pool){
-                    String inlabel = m.getLabel() + '\n';
-                    fos.write(inlabel.getBytes());
-                    File mfile = new File(main_path + "/datactrl/" + m.getLabel() + ".txt");
-                    mfile.createNewFile();
-                    FileOutputStream mfos = new FileOutputStream(mfile);
-                    String incontent = m.getContent() + '\n';
-                    mfos.write(incontent.getBytes());
-                    String intype = String.valueOf(m.getType()) + '\n';
-                    mfos.write(intype.getBytes());
-                    mfos.close();
-                }
-                fos.close();
+            List<Magnet> list = new ArrayList<Magnet>();
+            list.add(new Magnet("angel","chorus_of_angels",0));
+            list.add(new Magnet("bell","bell ring",0));
+            list.add(new Magnet("correct","correct answers",0));
+            list.add(new Magnet("end","end events",0));
+            list.add(new Magnet("falling","falling",0));
+            list.add(new Magnet("heartbeats","heartbeats",0));
+            list.add(new Magnet("siren","alarming",0));
+            list.add(new Magnet("snoring","snoring",0));
+            list.add(new Magnet("start","start events",0));
 
-                copyFilesFromRaw(this,R.raw.angel,"angel.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.bell,"bell.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.correct,"correct.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.end,"end.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.falling,"falling.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.heartbeats,"heartbeats.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.siren,"siren.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.snoring,"snoring.mp3",
-                        main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.start,"start.mp3",
-                        main_path+File.separator+"/se");
+            magnetSaver.StackSave(list);
 
-
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (java.io.IOException e){
-                e.printStackTrace();
-            }
+            copyFilesFromRaw(this,R.raw.angel,"angel.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.bell,"bell.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.correct,"correct.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.end,"end.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.falling,"falling.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.heartbeats,"heartbeats.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.siren,"siren.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.snoring,"snoring.mp3",
+                    main_path+File.separator+"/se");
+            copyFilesFromRaw(this,R.raw.start,"start.mp3",
+                    main_path+File.separator+"/se");
         }
     }
 

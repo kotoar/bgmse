@@ -6,6 +6,7 @@ public class Magnet {
     public static final int TYPE_UNDEFINED = 2;
 
     private int type;
+    private int isfav;
     private String label;
     private String content;
 
@@ -13,6 +14,7 @@ public class Magnet {
         this.label = label;
         this.content = content;
         this.type = type;
+        this.isfav = 0;
     }
 
     public String getLabel(){
@@ -25,5 +27,13 @@ public class Magnet {
 
     public int getType() {
         return type;
+    }
+
+    public int getIsfav(){
+        return isfav;
+    }
+
+    public void setIsfav(int inisfav){
+        isfav = inisfav;
     }
 }

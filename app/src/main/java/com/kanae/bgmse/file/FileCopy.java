@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 public class FileCopy {
 
     private String main_path;
+    private MagnetSaver magnetSaver;
 
     public FileCopy(){
         main_path  = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bgmse";
@@ -120,35 +121,6 @@ public class FileCopy {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public boolean file_add_record(Magnet magnet){
-        File newfile = new File(main_path + "/datactrl/" + magnet.getLabel() + ".txt");
-        if(newfile.exists()){
-            return false;
-        }
-        try{
-            newfile.createNewFile();
-            FileOutputStream nfos = new FileOutputStream(newfile);
-            String str = magnet.getContent() + '\n';
-            nfos.write(str.getBytes());
-            str = String.valueOf(magnet.getType()) + '\n';
-            nfos.write(str.getBytes());
-            nfos.close();
-
-            File outfile = new File(main_path + "/datactrl/main_list.txt");
-            FileOutputStream fos = new FileOutputStream(outfile,true);
-            str = magnet.getLabel() + '\n';
-            fos.write(str.getBytes());
-            fos.close();
-        } catch (java.io.FileNotFoundException e){
-            e.printStackTrace();
-        } catch (java.io.IOException e){
-            e.printStackTrace();
-        }
-
-        return true;
-
     }
 
 }

@@ -40,6 +40,7 @@ public class FileAddActivity extends AppCompatActivity {
     String input_content;
 
     SourceChooser sourceChooser;
+    MagnetSaver magnetSaver = new MagnetSaver();
 
     int checkedId;
     FileCopy fc = new FileCopy();
@@ -197,13 +198,23 @@ public class FileAddActivity extends AppCompatActivity {
         String file_name = file.getName();
         File dest_file = new File(main_path + "/se/"+file_name);
         fc.copyFile(dest_file,file);
-        fc.file_add_record(new Magnet(file_name,input_content,checkedId));
+        magnetSaver.AddMagnet(new Magnet(exExtensionName(file_name),input_content,checkedId));
 
         Intent intent = new Intent();
         intent.setAction("action.refreshMain");
         sendBroadcast(intent);
 
         return true;
+    }
+
+    public static String exExtensionName(String filename) {
+        if ((filename != null) && (filename.length() > 0)) {
+            int dot = filename.lastIndexOf('.');
+            if ((dot >-1) && (dot < (filename.length()))) {
+                return filename.substring(0, dot);
+            }
+        }
+        return filename;
     }
 
 }

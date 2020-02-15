@@ -7,6 +7,7 @@ import android.media.SoundPool;
 import android.os.Environment;
 
 import com.kanae.bgmse.R;
+import com.kanae.bgmse.file.MagnetSaver;
 import com.kanae.bgmse.magnet.Magnet;
 
 import java.io.BufferedReader;
@@ -30,8 +31,11 @@ public class MusicPool {
     private String main_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
             "/bgmse/se/";
 
+    private MagnetSaver magnetSaver = new MagnetSaver();
+
 
     public MusicPool(){
+
         initMusic();
         loadmusic();
     }
@@ -45,28 +49,7 @@ public class MusicPool {
     }
 
     private void initMusic() {
-        try{
-            InputStream inputStream = new FileInputStream(
-                    Environment.getExternalStorageDirectory().getAbsolutePath() +
-                            "/bgmse" + File.separator+"/datactrl/main_list.txt");
-            InputStreamReader isr = new InputStreamReader(inputStream, "UTF-8");
-            BufferedReader br = new BufferedReader(isr);
-            String string = "";
-
-            while ((string = br.readLine()) != null) {
-                InputStream mis = new FileInputStream(
-                        Environment.getExternalStorageDirectory().getAbsolutePath() +
-                                "/bgmse" + File.separator+"/datactrl/" + string + ".txt");
-                InputStreamReader misr = new InputStreamReader(mis, "UTF-8");
-                BufferedReader mbr = new BufferedReader(misr);
-                String mcontent = mbr.readLine();
-                int mtype = Integer.parseInt(mbr.readLine());
-                Magnet mmag = new Magnet(string,mcontent,mtype);
-                resList.add(mmag);
-            }
-        } catch(java.io.IOException e){
-            e.printStackTrace();
-        }
+        resList = magnetSaver.StackLoad();
     }
 
     private void loadmusic(){
