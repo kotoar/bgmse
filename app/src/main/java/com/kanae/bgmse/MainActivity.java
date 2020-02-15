@@ -2,6 +2,7 @@ package com.kanae.bgmse;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.kanae.bgmse.file.FileAddActivity;
 import com.kanae.bgmse.magnet.Magnet;
 import com.kanae.bgmse.ui.main.SectionsPagerAdapter;
 
@@ -60,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
         main_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bgmse";
         initFile();
 
+    }
+
+
+
+
+    public void callAddNew(){
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, FileAddActivity.class);
+        startActivity(intent);
     }
 
     private void initViewPager(){

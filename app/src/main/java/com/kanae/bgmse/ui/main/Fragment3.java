@@ -1,12 +1,16 @@
 package com.kanae.bgmse.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.kanae.bgmse.MainActivity;
 import com.kanae.bgmse.R;
+import com.kanae.bgmse.file.FileAddActivity;
 import com.kanae.bgmse.magnet.Magnet;
 
 import java.util.ArrayList;
@@ -24,11 +28,9 @@ public class Fragment3 extends Fragment {
 
     //private MagnetAdapter magnetAdapter;
     private List<Magnet> magnetList = new ArrayList<>();
-    private ListView magnetListView;
-    //private FragmentRefreshFmInVpBinding binding;
 
+    Button seg3Button1;
 
-    private int cursel;
     private int getIndex(){
         int index = 1;
         if (getArguments() != null) {
@@ -49,10 +51,6 @@ public class Fragment3 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cursel = getIndex();
-        //magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
-
-
 
     }
 
@@ -60,12 +58,20 @@ public class Fragment3 extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        cursel = getIndex();
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
+        seg3Button1 = view.findViewById(R.id.seg3button1);
+        seg3Button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).callAddNew();
+            }
+        });
 
         return view;
 
     }
+
+
 
     private void initView(){
         for(int i=0;i<20;i++){

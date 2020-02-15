@@ -24,6 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".file.FileAddActivity"
+            android:label="file_chooser">
+
+        </activity>
+
     </application>
 
 </manifest>
