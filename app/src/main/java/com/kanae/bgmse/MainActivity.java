@@ -1,8 +1,10 @@
 package com.kanae.bgmse;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -36,6 +38,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.kanae.bgmse.file.FileCopy.copyFilesFromRaw;
+import static com.kanae.bgmse.file.FileCopy.verifyStoragePermissions;
 import static java.lang.System.in;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         verifyStoragePermissions(this);
 
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("action.refreshMain");
+        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+
         initViewPager();
 
         main_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bgmse";
@@ -64,7 +72,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("action.refreshMain"))
+            {
+                Intent refintent = new Intent(MainActivity.this,MainActivity.class);
+                startActivity(refintent);
+                MainActivity.this.finish();
+            }
+        }
+    };
 
 
     public void callAddNew(){
@@ -145,72 +165,14 @@ public class MainActivity extends AppCompatActivity {
             } catch (java.io.IOException e){
                 e.printStackTrace();
             }
-
-
         }
     }
 
-
-    private static final String SEPARATOR = File.separator;//路径分隔符
-    public static void copyFilesFromRaw(Context context, int id, String fileName,String storagePath) {
-        InputStream inputStream = context.getResources().openRawResource(id);
-        File file = new File(storagePath);
-        if (!file.exists()) {//如果文件夹不存在，则创建新的文件夹
-            file.mkdirs();
-        }
-        readInputStream(storagePath + SEPARATOR + fileName, inputStream);
-    }
-    /**
-     * 读取输入流中的数据写入输出流
-     *
-     * @param storagePath 目标文件路径
-     * @param inputStream 输入流
-     */
-    public static void readInputStream(String storagePath, InputStream inputStream) {
-        File file = new File(storagePath);
-        try {
-            if (!file.exists()) {
-                // 1.建立通道对象
-                FileOutputStream fos = new FileOutputStream(file);
-                // 2.定义存储空间
-                byte[] buffer = new byte[inputStream.available()];
-                // 3.开始读文件
-                int lenght = 0;
-                while ((lenght = inputStream.read(buffer)) != -1) {// 循环从输入流读取buffer字节
-                    // 将Buffer中的数据写到outputStream对象中
-                    fos.write(buffer, 0, lenght);
-                }
-                fos.flush();// 刷新缓冲区
-                // 4.关闭流
-                fos.close();
-                inputStream.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mRefreshBroadcastReceiver);
     }
 
-
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.WRITE_EXTERNAL_STORAGE" };
-
-    public static void verifyStoragePermissions(Activity activity) {
-
-        try {
-            //检测是否有写的权限
-            int permission = ActivityCompat.checkSelfPermission(activity,
-                    "android.permission.WRITE_EXTERNAL_STORAGE");
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                // 没有写的权限，去申请写的权限，会弹出对话框
-                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }

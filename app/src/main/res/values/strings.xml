@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">bgmse</string>
-    <string name="tab_text_1">BGM</string>
-    <string name="tab_text_2">SE</string>
+    <string name="tab_text_1">SE</string>
+    <string name="tab_text_2">BGM</string>
     <string name="tab_text_3">Setting</string>
     <string name="seg3_button1">Add New SE</string>
 
-    <string name="cap_choose_path">Choose File : </string>
+    <string name="cap_choose_path">Choose File </string>
     <string name="init_choose_path">Please Choose a File</string>
     <string name="cap_input_content">Input Content </string>
     <string name="init_input_content"> </string>
