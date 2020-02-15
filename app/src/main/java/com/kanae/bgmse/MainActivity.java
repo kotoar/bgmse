@@ -154,9 +154,23 @@ public class MainActivity extends AppCompatActivity {
                 }
                 fos.close();
 
-                copyFilesFromRaw(this,R.raw.sta,"sta.mp3",
+                copyFilesFromRaw(this,R.raw.angel,"angel.mp3",
                         main_path+File.separator+"/se");
-                copyFilesFromRaw(this,R.raw.stb,"stb.mp3",
+                copyFilesFromRaw(this,R.raw.bell,"bell.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.correct,"correct.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.end,"end.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.falling,"falling.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.heartbeats,"heartbeats.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.siren,"siren.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.snoring,"snoring.mp3",
+                        main_path+File.separator+"/se");
+                copyFilesFromRaw(this,R.raw.start,"start.mp3",
                         main_path+File.separator+"/se");
 
 

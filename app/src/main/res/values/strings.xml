@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">bgmse</string>
-    <string name="tab_text_1">SE</string>
-    <string name="tab_text_2">BGM</string>
+    <string name="tab_text_1">Favorate</string>
+    <string name="tab_text_2">SE</string>
     <string name="tab_text_3">Setting</string>
     <string name="seg3_button1">Add New SE</string>
 

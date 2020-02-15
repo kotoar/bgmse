@@ -38,12 +38,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a Fragment (defined as a static inner class below).
         if(position == 1) {
-            return new Fragment2();
+            return new Fragment1();
         }
         if(position ==2) {
             return new Fragment3();
         }
-        return new Fragment1();
+        return new Fragment2();
     }
 
     @Nullable
