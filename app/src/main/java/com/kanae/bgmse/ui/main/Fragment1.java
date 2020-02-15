@@ -92,6 +92,7 @@ public class Fragment1 extends Fragment {
                 musicPool.play_se(childseid);
             }
         });
+
         linearLayout1.addView(child);
         stack_flag += 1;
     }
