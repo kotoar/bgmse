@@ -1,0 +1,6 @@
+sta
+walking
+0
+stb
+running
+0

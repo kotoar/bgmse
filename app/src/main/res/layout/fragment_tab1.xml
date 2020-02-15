@@ -11,14 +11,6 @@
         android:id="@+id/fraglayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView00"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-    </LinearLayout>
+        android:orientation="vertical" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

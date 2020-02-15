@@ -15,8 +15,10 @@ import androidx.fragment.app.Fragment;
 import com.kanae.bgmse.R;
 import com.kanae.bgmse.magnet.Magnet;
 import com.kanae.bgmse.magnet.MagnetView;
+import com.kanae.bgmse.music.MusicPool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,8 +30,12 @@ public class Fragment1 extends Fragment {
 
     //private MagnetAdapter magnetAdapter;
     private List<Magnet> magnetList = new ArrayList<>();
-    private ListView magnetListView;
+    private HashMap<Integer,Integer> soundID = new HashMap<Integer,Integer>();
+    int stack_flag;
+    //private ListView magnetListView;
     LinearLayout linearLayout1;
+
+    MusicPool musicPool;
 
     private int getIndex(){
         int index = 1;
@@ -51,8 +57,10 @@ public class Fragment1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        musicPool = new MusicPool();
+        magnetList = musicPool.getMagnetList();
+        soundID = musicPool.getSoundID();
+        stack_flag = 0;
     }
 
     @Override
@@ -60,19 +68,11 @@ public class Fragment1 extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
-        final TextView textview = view.findViewById(R.id.textView00);
         linearLayout1 = view.findViewById(R.id.fraglayout1);
         //linearLayout1.addView
 
 
-        textview.setText("2233");
-        textview.setTextSize(24);
-        textview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textview.setText("33444");
-            }
-        });
+        ;
 
 
         initView();
@@ -83,14 +83,25 @@ public class Fragment1 extends Fragment {
     }
 
     private void addView(Magnet magnet){
-        MagnetView child = new MagnetView(getActivity(), magnet);
+        MagnetView child = new MagnetView(getActivity(), magnet,stack_flag);
+        child.setData();
+        final int childseid = child.getSeid();
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicPool.play_se(childseid);
+            }
+        });
         linearLayout1.addView(child);
+        stack_flag += 1;
     }
 
     private void initView(){
-        addView(new Magnet("111","2222",0));
+        //addView(new Magnet("111","2222",0));
         //magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
-
+        for(Magnet m:magnetList){
+            addView(m);
+        }
     }
 
 }

@@ -18,19 +18,21 @@ public class MagnetView extends LinearLayout {
     LinearLayout linearLayout;
     TextView textViewLabel;
     TextView textViewContent;
+    int seid;
 
-
-    public MagnetView(Context context, String label, String content, int type){
+    public MagnetView(Context context, String label, String content, int type,int inseid){
         super(context);
         data = new Magnet(label,content,type);
         initView(context);
+        seid = inseid;
         setData();
     }
 
-    public MagnetView(Context context, Magnet magnet){
+    public MagnetView(Context context, Magnet magnet,int inseid){
         super(context);
         data = new Magnet(magnet.getLabel(),magnet.getContent(),magnet.getType());
         initView(context);
+        seid = inseid;
         setData();
     }
 
@@ -41,9 +43,13 @@ public class MagnetView extends LinearLayout {
         textViewContent = (TextView) findViewById(R.id.magnet_content);
     }
 
-    private void setData(){
+    public void setData(){
         textViewLabel.setText(data.getLabel());
         textViewContent.setText(data.getContent());
 
+    }
+
+    public final int getSeid() {
+        return seid;
     }
 }
