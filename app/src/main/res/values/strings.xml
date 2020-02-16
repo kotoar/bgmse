@@ -15,4 +15,7 @@
     <string name="add_items_mode1">SE</string>
     <string name="add_items_mode2">BGM</string>
 
+    <string name="seg3button1_label">Add New SE</string>
+    <string name="seg3button1_content">Import a new music file</string>
+
 </resources>

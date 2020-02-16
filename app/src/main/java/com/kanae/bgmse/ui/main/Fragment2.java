@@ -30,7 +30,6 @@ public class Fragment2 extends Fragment {
 
     LinearLayout linearLayout2;
 
-
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

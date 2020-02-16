@@ -31,7 +31,7 @@ public class MusicPool {
     public MusicPool(){
         initMusic();
         loadmusic();
-        resFavList();
+        initFavList();
     }
 
     public List<Magnet> getMagnetList(){
@@ -48,6 +48,14 @@ public class MusicPool {
 
     public void resFavList(){
         favList.clear();
+        for(Magnet m:resList){
+            if(m.getIsfav() == 1){
+                favList.add(m);
+            }
+        }
+    }
+
+    private void initFavList(){
         for(Magnet m:resList){
             if(m.getIsfav() == 1){
                 favList.add(m);

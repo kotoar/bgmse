@@ -10,43 +10,18 @@ import android.widget.ListView;
 
 import com.kanae.bgmse.MainActivity;
 import com.kanae.bgmse.R;
-import com.kanae.bgmse.file.FileAddActivity;
-import com.kanae.bgmse.magnet.Magnet;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import com.kanae.bgmse.ui.act.ActView;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class Fragment3 extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    //private MagnetAdapter magnetAdapter;
-    private List<Magnet> magnetList = new ArrayList<>();
-
-    Button seg3Button1;
-
-    private int getIndex(){
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        return index;
-    }
-
-
-    public static Fragment3 newInstance(int index) {
-        Fragment3 fragment = new Fragment3();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    private ActView seg3Button1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
