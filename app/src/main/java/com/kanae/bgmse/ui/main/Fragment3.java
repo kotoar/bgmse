@@ -22,6 +22,7 @@ import com.kanae.bgmse.ui.act.ActView;
 public class Fragment3 extends Fragment {
 
     private ActView seg3Button1;
+    private ActView seg3Button2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,13 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity) getActivity()).callAddNew();
+            }
+        });
+        seg3Button2 = view.findViewById(R.id.seg3button2);
+        seg3Button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).callNetFile();
             }
         });
 

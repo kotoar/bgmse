@@ -24,6 +24,7 @@ import android.view.View;
 
 import com.kanae.bgmse.file.FileAddActivity;
 import com.kanae.bgmse.file.MagnetSaver;
+import com.kanae.bgmse.file.NetFileActivity;
 import com.kanae.bgmse.magnet.Magnet;
 import com.kanae.bgmse.music.MusicPool;
 import com.kanae.bgmse.ui.main.Fragment2;
@@ -98,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
     public void callAddNew(){
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, FileAddActivity.class);
+        startActivity(intent);
+    }
+
+    public void callNetFile(){
+        Intent intent = new Intent(MainActivity.this, NetFileActivity.class);
         startActivity(intent);
     }
 

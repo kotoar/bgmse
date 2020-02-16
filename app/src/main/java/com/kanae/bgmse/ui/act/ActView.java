@@ -26,6 +26,12 @@ public class ActView extends LinearLayout {
         initView(context);
     }
 
+    public ActView(Context context, String inlabel, String incontent){
+        super(context);
+        initView(context);
+        setText(inlabel,incontent);
+    }
+
     public ActView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initActView(context, attrs);
