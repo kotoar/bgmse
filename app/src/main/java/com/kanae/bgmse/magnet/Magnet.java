@@ -9,12 +9,14 @@ public class Magnet {
     private int isfav;
     private String label;
     private String content;
+    private int musicFun;
 
-    public  Magnet(String label, String content, int type){
+    public  Magnet(String label, String content, int type, int musicFun){
         this.label = label;
         this.content = content;
         this.type = type;
         this.isfav = 0;
+        this.musicFun = musicFun;
     }
 
     public String getLabel(){
@@ -35,5 +37,17 @@ public class Magnet {
 
     public void setIsfav(int inisfav){
         isfav = inisfav;
+    }
+
+    public void reverseIsfav(){
+        if(isfav == 0){
+            isfav = 1;
+        }else{
+            isfav = 0;
+        }
+    }
+
+    public int getMusicFun(){
+        return musicFun;
     }
 }

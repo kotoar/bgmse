@@ -3,9 +3,6 @@ package com.kanae.bgmse.file;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Environment;
-
-import com.kanae.bgmse.magnet.Magnet;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,13 +16,6 @@ import androidx.core.app.ActivityCompat;
 
 public class FileCopy {
 
-    private String main_path;
-    private MagnetSaver magnetSaver;
-
-    public FileCopy(){
-        main_path  = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bgmse";
-    }
-
     private static final String SEPARATOR = File.separator;//路径分隔符
     public static void copyFilesFromRaw(Context context, int id, String fileName, String storagePath) {
         InputStream inputStream = context.getResources().openRawResource(id);
@@ -35,28 +25,18 @@ public class FileCopy {
         }
         readInputStream(storagePath + SEPARATOR + fileName, inputStream);
     }
-    /**
-     * 读取输入流中的数据写入输出流
-     *
-     * @param storagePath 目标文件路径
-     * @param inputStream 输入流
-     */
+
     public static void readInputStream(String storagePath, InputStream inputStream) {
         File file = new File(storagePath);
         try {
             if (!file.exists()) {
-                // 1.建立通道对象
                 FileOutputStream fos = new FileOutputStream(file);
-                // 2.定义存储空间
                 byte[] buffer = new byte[inputStream.available()];
-                // 3.开始读文件
                 int lenght = 0;
-                while ((lenght = inputStream.read(buffer)) != -1) {// 循环从输入流读取buffer字节
-                    // 将Buffer中的数据写到outputStream对象中
+                while ((lenght = inputStream.read(buffer)) != -1) {
                     fos.write(buffer, 0, lenght);
                 }
-                fos.flush();// 刷新缓冲区
-                // 4.关闭流
+                fos.flush();
                 fos.close();
                 inputStream.close();
             }
@@ -66,7 +46,6 @@ public class FileCopy {
             e.printStackTrace();
         }
     }
-
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -122,5 +101,4 @@ public class FileCopy {
             e.printStackTrace();
         }
     }
-
 }

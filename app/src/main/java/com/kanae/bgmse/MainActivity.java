@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,18 +25,12 @@ import android.view.View;
 import com.kanae.bgmse.file.FileAddActivity;
 import com.kanae.bgmse.file.MagnetSaver;
 import com.kanae.bgmse.magnet.Magnet;
+import com.kanae.bgmse.music.MusicPool;
+import com.kanae.bgmse.ui.main.Fragment2;
 import com.kanae.bgmse.ui.main.SectionsPagerAdapter;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,17 +40,13 @@ import static java.lang.System.in;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static MusicPool musicPool;
     ViewPager viewPager;
     TabLayout tablayout;
-    FloatingActionButton fab;
     SectionsPagerAdapter sectionsPagerAdapter;
-
-
-    String main_path;
-
     MagnetSaver magnetSaver = new MagnetSaver();
 
-    //private ActivityRefreshFmInVpBinding binding;
+    String main_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
         verifyStoragePermissions(this);
 
-
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("action.refreshMain");
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
 
         initViewPager();
-
         main_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bgmse";
         initFile();
-
+        musicPool = new MusicPool();
     }
 
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -83,13 +72,28 @@ public class MainActivity extends AppCompatActivity {
             String action = intent.getAction();
             if (action.equals("action.refreshMain"))
             {
-                Intent refintent = new Intent(MainActivity.this,MainActivity.class);
-                startActivity(refintent);
-                MainActivity.this.finish();
+                reloadMain();
             }
         }
     };
 
+    public void reloadMain(){
+        Intent refintent = new Intent(MainActivity.this,MainActivity.class);
+        startActivity(refintent);
+        MainActivity.this.finish();
+    }
+
+    public void refreshFrag2(){
+        Intent intent = new Intent();
+        intent.setAction("action.refreshFavView");
+        sendBroadcast(intent);
+    }
+
+    public void refreshFrag1(){
+        Intent intent = new Intent();
+        intent.setAction("action.refreshSEView");
+        sendBroadcast(intent);
+    }
 
     public void callAddNew(){
         Intent intent = new Intent();
@@ -104,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(sectionsPagerAdapter);
-
         tablayout.setupWithViewPager(viewPager);
 
         viewPager.setOffscreenPageLimit(2);
@@ -117,18 +120,16 @@ public class MainActivity extends AppCompatActivity {
             parentpath.mkdirs();
         }
         if(!file.exists()){
-
-
             List<Magnet> list = new ArrayList<Magnet>();
-            list.add(new Magnet("angel","chorus_of_angels",0));
-            list.add(new Magnet("bell","bell ring",0));
-            list.add(new Magnet("correct","correct answers",0));
-            list.add(new Magnet("end","end events",0));
-            list.add(new Magnet("falling","falling",0));
-            list.add(new Magnet("heartbeats","heartbeats",0));
-            list.add(new Magnet("siren","alarming",0));
-            list.add(new Magnet("snoring","snoring",0));
-            list.add(new Magnet("start","start events",0));
+            list.add(new Magnet("angel","chorus_of_angels",0,0));
+            list.add(new Magnet("bell","bell ring",0,1));
+            list.add(new Magnet("correct","correct answers",0,2));
+            list.add(new Magnet("end","end events",0,3));
+            list.add(new Magnet("falling","falling",0,4));
+            list.add(new Magnet("heartbeats","heartbeats",0,5));
+            list.add(new Magnet("siren","alarming",0,6));
+            list.add(new Magnet("snoring","snoring",0,7));
+            list.add(new Magnet("start","start events",0,8));
 
             magnetSaver.StackSave(list);
 
@@ -158,6 +159,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(mRefreshBroadcastReceiver);
     }
-
-
 }

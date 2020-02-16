@@ -14,35 +14,31 @@ import android.widget.TextView;
 
 import com.kanae.bgmse.R;
 import com.kanae.bgmse.magnet.Magnet;
+import com.kanae.bgmse.music.MusicPool;
 
 import java.io.File;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.kanae.bgmse.file.FileCopy.copyFilesFromRaw;
+import static com.kanae.bgmse.MainActivity.musicPool;
 
 public class FileAddActivity extends AppCompatActivity {
-
 
     TextView textViewChoosePath;
     TextView textViewInputContent;
     TextView textViewHigh;
     TextView textViewExit;
     TextView textViewAdd;
-
-    RadioButton radioButtonSE;
-    RadioButton radioButtonBGM;
     RadioGroup radioGroup;
 
     String select_file_path;
     String main_path;
     String input_content;
+    int checkedId;
 
     SourceChooser sourceChooser;
     MagnetSaver magnetSaver = new MagnetSaver();
-
-    int checkedId;
     FileCopy fc = new FileCopy();
 
     private static final int FILE_SELECT_CODE = 0;
@@ -52,7 +48,6 @@ public class FileAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_items);
 
-
         textViewChoosePath = (TextView)findViewById(R.id.text_init_choose_path);
         textViewInputContent = (TextView)findViewById(R.id.text_init_input_content);
         textViewHigh = (TextView)findViewById(R.id.text_high);
@@ -60,9 +55,6 @@ public class FileAddActivity extends AppCompatActivity {
         textViewExit = (TextView)findViewById(R.id.text_add_items_exit);
         textViewAdd = (TextView)findViewById(R.id.text_add_items_add);
 
-
-        radioButtonSE = (RadioButton)findViewById(R.id.radioButtonSE);
-        radioButtonSE = (RadioButton)findViewById(R.id.radioButtonBGM);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroupType);
 
         checkedId = 2;
@@ -87,7 +79,6 @@ public class FileAddActivity extends AppCompatActivity {
                 if(add_file()){
                     FileAddActivity.this.finish();
                 }
-
             }
         });
 
@@ -99,12 +90,10 @@ public class FileAddActivity extends AppCompatActivity {
             }
         });
 
-
         radioGroup.setOnCheckedChangeListener(new MyRadioButtonListener());
         sourceChooser = new SourceChooser(FileAddActivity.this);
 
     }
-
 
     class MyRadioButtonListener implements RadioGroup.OnCheckedChangeListener {
         @Override
@@ -119,7 +108,6 @@ public class FileAddActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void openFile(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -137,16 +125,9 @@ public class FileAddActivity extends AppCompatActivity {
         switch (requestCode) {
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
-                    // Get the Uri of the selected file
                     Uri uri = data.getData();
-                    //Log.d(TAG, "File Uri: " + uri.toString());
-                    // Get the path
                     select_file_path = sourceChooser.getPath(this, uri);
                     textViewChoosePath.setText(select_file_path);
-                    //Log.d(TAG, "File Path: " + path);
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
                 }
                 break;
         }
@@ -198,10 +179,10 @@ public class FileAddActivity extends AppCompatActivity {
         String file_name = file.getName();
         File dest_file = new File(main_path + "/se/"+file_name);
         fc.copyFile(dest_file,file);
-        magnetSaver.AddMagnet(new Magnet(exExtensionName(file_name),input_content,checkedId));
-
+        magnetSaver.AddMagnet(new Magnet(exExtensionName(file_name),input_content,checkedId,musicPool.getMagnetList().size()));
+        musicPool = new MusicPool();
         Intent intent = new Intent();
-        intent.setAction("action.refreshMain");
+        intent.setAction("action.refreshSEView");
         sendBroadcast(intent);
 
         return true;

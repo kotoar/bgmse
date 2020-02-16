@@ -71,14 +71,4 @@ public class Fragment3 extends Fragment {
 
     }
 
-
-
-    private void initView(){
-        for(int i=0;i<20;i++){
-            magnetList.add(new Magnet("label"+i,"conten"+i,Magnet.TYPE_BGM));
-        }
-        //magnetAdapter = new MagnetAdapter(getActivity(),R.layout.magnet,magnetList);
-
-    }
-
 }

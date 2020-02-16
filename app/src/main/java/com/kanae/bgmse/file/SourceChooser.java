@@ -26,26 +26,6 @@ public class SourceChooser {
         return util;
     }
 
-    /**
-     * 对外接口  获取uri对应的路径
-     *
-     * @param uri
-     * @return
-     */
-    public String getChooseFileResultPath(Uri uri) {
-        String chooseFilePath = null;
-        if ("file".equalsIgnoreCase(uri.getScheme())) {//使用第三方应用打开
-            chooseFilePath = uri.getPath();
-            Toast.makeText(context, chooseFilePath, Toast.LENGTH_SHORT).show();
-            return chooseFilePath;
-        }
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {//4.4以后
-            chooseFilePath = getPath(context, uri);
-        } else {//4.4以下下系统调用方法
-            chooseFilePath = getRealPathFromURI(uri);
-        }
-        return chooseFilePath;
-    }
 
     private String getRealPathFromURI(Uri contentUri) {
         String res = null;
@@ -59,9 +39,6 @@ public class SourceChooser {
         return res;
     }
 
-    /**
-     * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
-     */
     @SuppressLint("NewApi")
     public String getPath(final Context context, final Uri uri) {
 

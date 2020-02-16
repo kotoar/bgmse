@@ -2,7 +2,6 @@ package com.kanae.bgmse.music;
 
 import android.content.res.AssetManager;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Environment;
 
@@ -10,38 +9,54 @@ import com.kanae.bgmse.R;
 import com.kanae.bgmse.file.MagnetSaver;
 import com.kanae.bgmse.magnet.Magnet;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.kanae.bgmse.MainActivity.musicPool;
+
 public class MusicPool {
 
     private List<Magnet> resList = new ArrayList<>();
+    private List<Magnet> favList = new ArrayList<>();
     private SoundPool mSoundPool = null;
     private AssetManager aManager;
     private HashMap<Integer, Integer> soundID = new HashMap<Integer, Integer>();
-    private String main_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
-            "/bgmse/se/";
+    private String main_path = Environment.getExternalStorageDirectory().getAbsolutePath()
+            + "/bgmse/se/";
 
     private MagnetSaver magnetSaver = new MagnetSaver();
 
-
     public MusicPool(){
-
         initMusic();
         loadmusic();
+        resFavList();
     }
 
     public List<Magnet> getMagnetList(){
         return resList;
+    }
+
+    public void setFav(String indexLabel){
+        for(Magnet m:resList){
+            if(m.getLabel().equals(indexLabel)){
+                m.reverseIsfav();
+            }
+        }
+    }
+
+    public void resFavList(){
+        favList.clear();
+        for(Magnet m:resList){
+            if(m.getIsfav() == 1){
+                favList.add(m);
+            }
+        }
+    }
+
+    public List<Magnet> getFavList(){
+        return favList;
     }
 
     public HashMap<Integer,Integer> getSoundID(){

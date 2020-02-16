@@ -1,7 +1,5 @@
 package com.kanae.bgmse.file;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Environment;
 
 import com.google.gson.Gson;
@@ -15,8 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
 
 
@@ -43,7 +40,6 @@ public class MagnetSaver {
         } catch (java.io.IOException e){
             e.printStackTrace();
         }
-
     }
 
     public List<Magnet> StackLoad(){

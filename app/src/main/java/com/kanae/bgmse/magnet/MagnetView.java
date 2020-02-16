@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.kanae.bgmse.R;
 
-import org.w3c.dom.Text;
-
 public class MagnetView extends LinearLayout {
 
     Magnet data;
@@ -18,21 +16,11 @@ public class MagnetView extends LinearLayout {
     LinearLayout linearLayout;
     TextView textViewLabel;
     TextView textViewContent;
-    int seid;
 
-    public MagnetView(Context context, String label, String content, int type,int inseid){
+    public MagnetView(Context context, Magnet magnet){
         super(context);
-        data = new Magnet(label,content,type);
+        data = magnet;
         initView(context);
-        seid = inseid;
-        setData();
-    }
-
-    public MagnetView(Context context, Magnet magnet,int inseid){
-        super(context);
-        data = new Magnet(magnet.getLabel(),magnet.getContent(),magnet.getType());
-        initView(context);
-        seid = inseid;
         setData();
     }
 
@@ -46,10 +34,17 @@ public class MagnetView extends LinearLayout {
     public void setData(){
         textViewLabel.setText(data.getLabel());
         textViewContent.setText(data.getContent());
-
     }
 
-    public final int getSeid() {
-        return seid;
+    public int getMusicFun(){
+        return data.getMusicFun();
+    }
+
+    public String getLabel(){
+        return data.getLabel();
+    }
+
+    public void setFavColor(){
+        textViewLabel.setTextColor(this.getResources().getColor(R.color.colorFavHighlight));
     }
 }
