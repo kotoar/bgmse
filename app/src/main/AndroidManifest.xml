@@ -28,12 +28,13 @@
 
         <activity
             android:name=".file.FileAddActivity"
-            android:label="file_chooser">
-
+            android:label="file_chooser"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".file.NetFileActivity"
-            android:label="Net Connection">
+            android:label="Net Connection"
+            android:parentActivityName=".MainActivity">
 
         </activity>
 

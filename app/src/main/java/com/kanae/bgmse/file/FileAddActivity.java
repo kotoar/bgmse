@@ -1,11 +1,14 @@
 package com.kanae.bgmse.file;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
 import android.widget.RadioButton;
@@ -20,6 +23,7 @@ import java.io.File;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import static com.kanae.bgmse.MainActivity.musicPool;
 
@@ -27,7 +31,6 @@ public class FileAddActivity extends AppCompatActivity {
 
     TextView textViewChoosePath;
     TextView textViewInputContent;
-    TextView textViewHigh;
     TextView textViewExit;
     TextView textViewAdd;
     RadioGroup radioGroup;
@@ -50,12 +53,12 @@ public class FileAddActivity extends AppCompatActivity {
 
         textViewChoosePath = (TextView)findViewById(R.id.text_init_choose_path);
         textViewInputContent = (TextView)findViewById(R.id.text_init_input_content);
-        textViewHigh = (TextView)findViewById(R.id.text_high);
 
         textViewExit = (TextView)findViewById(R.id.text_add_items_exit);
         textViewAdd = (TextView)findViewById(R.id.text_add_items_add);
 
         radioGroup = (RadioGroup)findViewById(R.id.radioGroupType);
+
 
         checkedId = 2;
         select_file_path = "";
@@ -75,7 +78,6 @@ public class FileAddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //openFile();
                 input_content = textViewInputContent.getText().toString();
-                //textViewHigh.setText(input_content);
                 if(add_file()){
                     FileAddActivity.this.finish();
                 }
@@ -186,6 +188,16 @@ public class FileAddActivity extends AppCompatActivity {
         sendBroadcast(intent);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static String exExtensionName(String filename) {
