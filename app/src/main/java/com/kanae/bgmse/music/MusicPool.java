@@ -21,7 +21,6 @@ public class MusicPool {
     private List<Magnet> resList = new ArrayList<>();
     private List<Magnet> favList = new ArrayList<>();
     private SoundPool mSoundPool = null;
-    private AssetManager aManager;
     private HashMap<Integer, Integer> soundID = new HashMap<Integer, Integer>();
     private String main_path = Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/bgmse/se/";
