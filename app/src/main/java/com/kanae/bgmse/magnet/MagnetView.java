@@ -47,4 +47,5 @@ public class MagnetView extends LinearLayout {
     public void setFavColor(){
         textViewLabel.setTextColor(this.getResources().getColor(R.color.colorFavHighlight));
     }
+
 }

@@ -30,7 +30,8 @@
             android:id="@+id/text_init_choose_path"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/init_choose_path" />
+            android:text="@string/init_choose_path"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <View android:layout_width="fill_parent"
@@ -88,6 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/add_items_mode1"
+            android:textAlignment="textStart"
             android:textSize="20sp" />
 
         <RadioButton
