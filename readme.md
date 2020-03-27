@@ -1,10 +1,5 @@
 # BGMSE
 
-#### Download Link 下载链接
-[BGMSE](http://101.133.217.228/bgmse.apk)
-
----
-
 #### Application Abstract
 The app is used to play SE (sound effect) music when chatting in daily life to make conversion easier.
 
