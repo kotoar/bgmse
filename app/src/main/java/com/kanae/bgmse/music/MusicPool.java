@@ -21,7 +21,7 @@ public class MusicPool {
     private List<Magnet> resList = new ArrayList<>();
     private List<Magnet> favList = new ArrayList<>();
     private SoundPool mSoundPool = null;
-    private HashMap<Integer, Integer> soundID = new HashMap<Integer, Integer>();
+    private HashMap<String, Integer> soundID = new HashMap<String, Integer>();
     private String main_path = Environment.getExternalStorageDirectory().getAbsolutePath()
             + "/bgmse/se/";
 
@@ -41,6 +41,7 @@ public class MusicPool {
         for(Magnet m:resList){
             if(m.getLabel().equals(indexLabel)){
                 m.reverseIsfav();
+                break;
             }
         }
     }
@@ -66,7 +67,7 @@ public class MusicPool {
         return favList;
     }
 
-    public HashMap<Integer,Integer> getSoundID(){
+    public HashMap<String,Integer> getSoundID(){
         return soundID;
     }
 
@@ -77,12 +78,22 @@ public class MusicPool {
     private void loadmusic(){
         mSoundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
         for(int i=0;i<resList.size();i++){
-            soundID.put(i, mSoundPool.load( main_path+resList.get(i).getLabel()+".mp3", 1));
+            soundID.put(resList.get(i).getLabel(), mSoundPool.load( main_path+resList.get(i).getLabel()+".mp3", 1));
         }
     }
 
-    public void play_se(int index){
-        mSoundPool.play(soundID.get(index),1,1,0,0,1);
+    public void play_se(String indexLabel){
+        mSoundPool.play(soundID.get(indexLabel),1,1,0,0,1);
     }
+
+    public void deleteRes(String indexLabel){
+        for(Magnet m:resList){
+            if(m.getLabel().equals(indexLabel)){
+                resList.remove(m);
+                break;
+            }
+        }
+    }
+
 
 }

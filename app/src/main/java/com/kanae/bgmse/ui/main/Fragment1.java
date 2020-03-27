@@ -7,11 +7,16 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +42,6 @@ public class Fragment1 extends Fragment {
 
     private LinearLayout linearLayout1;
 
-    private int touchID;
-    private long mLastTime=0;
-    private long mCurTime=0;
-    private String touchLabel="";
-
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -56,7 +56,6 @@ public class Fragment1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        touchID = -1;
         IntentFilter filter = new IntentFilter();
         filter.addAction("action.refreshSEView");
         getActivity().getApplicationContext().registerReceiver(receiver, filter);
@@ -73,24 +72,40 @@ public class Fragment1 extends Fragment {
         return view;
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    musicPool.play_se(touchID);
-                    break;
-                case 2:
-                    musicPool.setFav(touchLabel);
+
+    private void menuPop(View v, final String magLabel) {
+        //定义PopupMenu对象
+        PopupMenu popupMenu = new PopupMenu(getActivity(), v);
+        //设置PopupMenu对象的布局
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+        //设置PopupMenu的点击事件
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getTitle().equals("Add to Favorate")){
+                    musicPool.setFav(magLabel);
                     MagnetSaver magnetSaver = new MagnetSaver();
                     magnetSaver.StackSave(musicPool.getMagnetList());
                     refreshView();
                     ((MainActivity)getActivity()).refreshFrag2();
-                    break;
+                    return true;
+                }
+                if(item.getTitle().equals("Delete")) {
+                    musicPool.deleteRes(magLabel);
+                    musicPool.resFavList();
+                    refreshView();
+                    ((MainActivity) getActivity()).refreshFrag2();
+                    Toast.makeText(getActivity(), "Deleted" + magLabel, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return true;
             }
-        }
-    };
+        });
+        //显示菜单
+        popupMenu.show();
+    }
+
+
 
     private void refreshView(){
         linearLayout1.removeAllViews();
@@ -102,21 +117,21 @@ public class Fragment1 extends Fragment {
         child.setData();
         final int childseid = child.getMusicFun();
         final String childLabel = child.getLabel();
+
+        registerForContextMenu(child);
+
+        child.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                menuPop(v, childLabel);
+                return true;
+            }
+        });
+
         child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                touchID = childseid;
-                touchLabel = childLabel;
-                mLastTime=mCurTime;
-                mCurTime= System.currentTimeMillis();
-                if(mCurTime-mLastTime<300){
-                    mCurTime =0;
-                    mLastTime = 0;
-                    handler.removeMessages(1);
-                    handler.sendEmptyMessage(2);
-                }else{
-                    handler.sendEmptyMessageDelayed(1, 310);
-                }
+                musicPool.play_se(childLabel);
             }
         });
 

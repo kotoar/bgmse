@@ -2,6 +2,7 @@ package com.kanae.bgmse.magnet;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,9 @@ public class MagnetView extends LinearLayout {
     LinearLayout linearLayout;
     TextView textViewLabel;
     TextView textViewContent;
+
+    private float posX;
+    private float posY;
 
     public MagnetView(Context context, Magnet magnet){
         super(context);
@@ -47,5 +51,24 @@ public class MagnetView extends LinearLayout {
     public void setFavColor(){
         textViewLabel.setTextColor(this.getResources().getColor(R.color.colorFavHighlight));
     }
+
+    /*@Override
+    public boolean onTouchEvent(MotionEvent event){
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                posX = event.getX();
+                posY = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                setTranslationX(getX() + (event.getX() - posX));
+                setTranslationY(getY() + (event.getY() - posY));
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return true;
+    }*/
 
 }

@@ -77,10 +77,11 @@ public class Fragment2 extends Fragment {
         MagnetView child = new MagnetView(getActivity(), magnet);
         child.setData();
         final int childseid = child.getMusicFun();
+        final String childLabel = child.getLabel();
         child.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                musicPool.play_se(childseid);
+                musicPool.play_se(childLabel);
             }
         });
 
