@@ -2,14 +2,21 @@ package com.kanae.bgmse.magnet;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.kanae.bgmse.R;
 
+import java.util.List;
+
 public class MagnetView extends LinearLayout {
+
+
 
     Magnet data;
     LayoutInflater layoutInflater;
@@ -18,14 +25,18 @@ public class MagnetView extends LinearLayout {
     TextView textViewLabel;
     TextView textViewContent;
 
-    private float posX;
-    private float posY;
+    CheckBox selectRadio;
+
+    private boolean isselected;
+    private int select_mode;
 
     public MagnetView(Context context, Magnet magnet){
         super(context);
         data = magnet;
         initView(context);
         setData();
+        isselected = false;
+        select_mode = 0;
     }
 
     private void initView(Context context){
@@ -33,6 +44,7 @@ public class MagnetView extends LinearLayout {
         linearLayout = (LinearLayout) findViewById(R.id.magnet_layout);
         textViewLabel = (TextView) findViewById(R.id.magnet_label);
         textViewContent = (TextView) findViewById(R.id.magnet_content);
+        selectRadio = (CheckBox) findViewById(R.id.select_radio);
     }
 
     public void setData(){
@@ -52,23 +64,24 @@ public class MagnetView extends LinearLayout {
         textViewLabel.setTextColor(this.getResources().getColor(R.color.colorFavHighlight));
     }
 
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event){
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                posX = event.getX();
-                posY = event.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                setTranslationX(getX() + (event.getX() - posX));
-                setTranslationY(getY() + (event.getY() - posY));
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                break;
-        }
-        return true;
-    }*/
+    public void startSelect(){
+        select_mode = 1;
+        selectRadio.setWidth(35);
+
+    }
+
+    public void endSelect(){
+        select_mode = 0;
+        selectRadio.setWidth(0);
+    }
+
+    public void setIsselected(boolean set){
+        isselected = set;
+    }
+
+    public boolean getIsselect(){
+        return isselected;
+    }
+
 
 }

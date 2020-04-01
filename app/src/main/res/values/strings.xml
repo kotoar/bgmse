@@ -19,6 +19,11 @@
     <string name="seg3button1_content">Import a new music file</string>
 
 
-    <drawable name="colorFocus"> #20009688 </drawable>
-    <drawable name="colorLeave"> #FFFFFF </drawable>
+    <string name="action_mul_cut">MUL</string>
+    <string name="action_mul_extend">Cancel</string>
+    <string name="action_settings">Setting</string>
+    <string name="action_fav">Fav</string>
+    <string name="action_delete">Del</string>
+
+
 </resources>

@@ -10,6 +10,7 @@ public class Magnet {
     private String label;
     private String content;
     private int musicFun;
+    private boolean isselected;
 
     public  Magnet(String label, String content, int type, int musicFun){
         this.label = label;
@@ -17,26 +18,43 @@ public class Magnet {
         this.type = type;
         this.isfav = 0;
         this.musicFun = musicFun;
+        isselected = false;
     }
 
     public String getLabel(){
         return label;
     }
 
+    public void setLabel(String labelin){
+        label = labelin;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String contentin) {
+        content = contentin;
     }
 
     public int getType() {
         return type;
     }
 
+    public void setIsfav(int inisfav){
+        isfav = inisfav;
+    }
+
     public int getIsfav(){
         return isfav;
     }
 
-    public void setIsfav(int inisfav){
-        isfav = inisfav;
+    public boolean getIsselected(){
+        return isselected;
+    }
+
+    public void setIsselected(boolean inisselected){
+        isselected = inisselected;
     }
 
     public void reverseIsfav(){

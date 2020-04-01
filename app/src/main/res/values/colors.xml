@@ -6,4 +6,7 @@
 
     <color name="colorFavHighlight">#3F51B5</color>
 
+    <drawable name="colorFocus"> #20009688 </drawable>
+    <drawable name="colorLeave"> #FFFFFF </drawable>
+
 </resources>

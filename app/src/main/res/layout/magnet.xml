@@ -1,44 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/magnet_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10px"
-        android:background="@drawable/magnet_style" />
-
-    <TextView
-        android:id="@+id/magnet_label"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Label Text"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:background="@drawable/magnet_style"/>
+        android:orientation="horizontal">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="5px"
-        android:background="@drawable/magnet_style" />
+        <CheckBox
+            android:id="@+id/select_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:ignore="Suspicious0dp" />
 
-    <TextView
-        android:id="@+id/magnet_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Content Text"
-        android:background="@drawable/magnet_style"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20px"
-        android:background="@drawable/magnet_style" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@drawable/magnet_style" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:background="#90909090" />
+            <TextView
+                android:id="@+id/magnet_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/magnet_style"
+                android:text="Label Text"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/magnet_style" />
+
+            <TextView
+                android:id="@+id/magnet_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/magnet_style"
+                android:text="Content Text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@drawable/magnet_style" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#90909090" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

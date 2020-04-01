@@ -39,12 +39,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a Fragment (defined as a static inner class below).
         if(position == 1) {
-            return new Fragment1();
+            return new Fragment2();
         }
         if(position ==2) {
             return new Fragment3();
         }
-        return new Fragment2();
+        return new Fragment1();
     }
 
     @Nullable
@@ -56,7 +56,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
         return 3;
     }
 
@@ -81,7 +80,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 /*
     public void refreshMofifiedPageData(int position, int curPageIndex) {
         for (int i = 0; i < tags.size(); i++) {
-            Fragment1 fragment = (Fragment1) fragmentManager.findFragmentByTag(tags.get(i));
+            Fragment2 fragment = (Fragment2) fragmentManager.findFragmentByTag(tags.get(i));
             //fragment.refreshData(position, curPageIndex);
         }
     }

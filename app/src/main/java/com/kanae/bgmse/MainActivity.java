@@ -1,33 +1,27 @@
 package com.kanae.bgmse;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
 import com.kanae.bgmse.file.FileAddActivity;
 import com.kanae.bgmse.file.MagnetSaver;
 import com.kanae.bgmse.file.NetFileActivity;
 import com.kanae.bgmse.magnet.Magnet;
 import com.kanae.bgmse.music.MusicPool;
-import com.kanae.bgmse.ui.main.Fragment2;
 import com.kanae.bgmse.ui.main.SectionsPagerAdapter;
 
 import java.io.File;
@@ -37,7 +31,6 @@ import java.util.List;
 
 import static com.kanae.bgmse.file.FileCopy.copyFilesFromRaw;
 import static com.kanae.bgmse.file.FileCopy.verifyStoragePermissions;
-import static java.lang.System.in;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tablayout;
     SectionsPagerAdapter sectionsPagerAdapter;
     MagnetSaver magnetSaver = new MagnetSaver();
+
+    Toolbar toolbar;
+    MenuItem item_fav;
+    MenuItem item_delete;
+    MenuItem item_mul;
+
+    boolean isextended;
 
     String main_path;
 
@@ -58,12 +58,89 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("action.refreshMain");
+
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
 
         initViewPager();
         main_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bgmse";
         initFile();
         musicPool = new MusicPool();
+
+        isextended = false;
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        item_fav = menu.findItem(R.id.action_favorite);
+        item_delete = menu.findItem(R.id.action_delete);
+        item_mul = menu.findItem(R.id.action_multiple);
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_multiple:
+                Toast.makeText(getApplicationContext(),"Mutiple Select",Toast.LENGTH_SHORT).show();
+
+
+                if(isextended){         //Action Cancel
+                    cutToolBar();
+                    Intent intent = new Intent();
+                    intent.setAction("action.mutipleCancel.frag" + String.valueOf(viewPager.getCurrentItem()));
+                    sendBroadcast(intent);
+                }
+                else{                   //Action MUL
+                    extendToolBar();
+                    Intent intent = new Intent();
+                    intent.setAction("action.mutipleSelect.frag" + String.valueOf(viewPager.getCurrentItem()));
+                    sendBroadcast(intent);
+                }
+                isextended = !isextended;
+
+                return true;
+
+            case R.id.action_favorite:
+                Intent intent = new Intent();
+                intent.setAction("action.mutipleFavorite");
+                sendBroadcast(intent);
+                intent.setAction("action.mutipleCancel.frag" + String.valueOf(viewPager.getCurrentItem()));
+                sendBroadcast(intent);
+                cutToolBar();
+                return true;
+
+            case R.id.action_delete:
+                return true;
+
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(),"set",Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void extendToolBar() {
+        item_fav.setVisible(true);
+        item_delete.setVisible(true);
+        item_mul.setTitle(R.string.action_mul_extend);
+    }
+
+    private void cutToolBar() {
+        item_fav.setVisible(false);
+        item_delete.setVisible(false);
+        item_mul.setTitle(R.string.action_mul_cut);
     }
 
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -84,17 +161,6 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.finish();
     }
 
-    public void refreshFrag2(){
-        Intent intent = new Intent();
-        intent.setAction("action.refreshFavView");
-        sendBroadcast(intent);
-    }
-
-    public void refreshFrag1(){
-        Intent intent = new Intent();
-        intent.setAction("action.refreshSEView");
-        sendBroadcast(intent);
-    }
 
     public void callAddNew(){
         Intent intent = new Intent();
@@ -110,7 +176,11 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager(){
         tablayout = (TabLayout)findViewById(R.id.tabs);
         viewPager = (ViewPager)findViewById(R.id.view_pager);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+
+
         tablayout.setupWithViewPager(viewPager);
+
 
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(sectionsPagerAdapter);
