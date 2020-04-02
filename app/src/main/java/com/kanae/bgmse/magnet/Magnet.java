@@ -6,7 +6,7 @@ public class Magnet {
     public static final int TYPE_UNDEFINED = 2;
 
     private int type;
-    private int isfav;
+    private boolean isfav;
     private String label;
     private String content;
     private int musicFun;
@@ -16,7 +16,7 @@ public class Magnet {
         this.label = label;
         this.content = content;
         this.type = type;
-        this.isfav = 0;
+        this.isfav = false;
         this.musicFun = musicFun;
         isselected = false;
     }
@@ -41,11 +41,11 @@ public class Magnet {
         return type;
     }
 
-    public void setIsfav(int inisfav){
+    public void setIsfav(boolean inisfav){
         isfav = inisfav;
     }
 
-    public int getIsfav(){
+    public boolean getIsfav(){
         return isfav;
     }
 
@@ -58,11 +58,7 @@ public class Magnet {
     }
 
     public void reverseIsfav(){
-        if(isfav == 0){
-            isfav = 1;
-        }else{
-            isfav = 0;
-        }
+        isfav = !isfav;
     }
 
     public int getMusicFun(){

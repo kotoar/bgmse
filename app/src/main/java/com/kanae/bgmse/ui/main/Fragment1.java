@@ -70,6 +70,7 @@ public class Fragment1 extends Fragment {
     }
 
     private void initView(){
+        musicPool.resFavList();
         magnetList = musicPool.getFavList();
         magnetAdapter = new MagnetAdapter(getActivity(),magnetList);
         magnetAdapter.notifyDataSetChanged();

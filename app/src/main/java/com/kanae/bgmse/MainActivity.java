@@ -114,9 +114,15 @@ public class MainActivity extends AppCompatActivity {
                 intent.setAction("action.mutipleCancel.frag" + String.valueOf(viewPager.getCurrentItem()));
                 sendBroadcast(intent);
                 cutToolBar();
+                isextended = !isextended;
                 return true;
 
             case R.id.action_delete:
+                Intent intent_delete = new Intent();
+                intent_delete.setAction("action.mutiple.delete");
+                sendBroadcast(intent_delete);
+                cutToolBar();
+                isextended = !isextended;
                 return true;
 
             case R.id.action_settings:

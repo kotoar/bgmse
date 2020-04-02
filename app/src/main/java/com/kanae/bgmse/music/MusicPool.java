@@ -40,7 +40,7 @@ public class MusicPool {
     public void setFav(String indexLabel){
         for(Magnet m:resList){
             if(m.getLabel().equals(indexLabel)){
-                m.setIsfav(1);
+                m.setIsfav(true);
                 break;
             }
         }
@@ -60,7 +60,7 @@ public class MusicPool {
     public void resFavList(){
         favList.clear();
         for(Magnet m:resList){
-            if(m.getIsfav() == 1){
+            if(m.getIsfav()){
                 favList.add(m);
             }
         }
@@ -68,7 +68,7 @@ public class MusicPool {
 
     private void initFavList(){
         for(Magnet m:resList){
-            if(m.getIsfav() == 1){
+            if(m.getIsfav()){
                 favList.add(m);
             }
         }
@@ -80,6 +80,15 @@ public class MusicPool {
 
     public List<Magnet> getResList() {
         return resList;
+    }
+
+    public boolean getIsFav(String indexLabel){
+        for(Magnet m:resList){
+            if(m.getLabel().equals(indexLabel)){
+                return m.getIsfav();
+            }
+        }
+        return false;
     }
 
     public HashMap<String,Integer> getSoundID(){

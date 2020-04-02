@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,8 @@ public class Fragment2 extends Fragment {
             if (action.equals("action.popupmenu.popup")) {
                 Bundle extras = intent.getExtras();
                 int position = extras.getInt("ItemPosition");
-                menuPop(listview.getChildAt(position-listview.getFirstVisiblePosition()), magnetList.get(position).getLabel());
+                menuPop(listview.getChildAt(position-listview.getFirstVisiblePosition()),
+                        magnetList.get(position).getLabel(), position);
             }
             if (action.equals("action.mutipleSelect.frag1")){
                 magnetAdapter.selectmode = true;
@@ -56,17 +58,27 @@ public class Fragment2 extends Fragment {
                 magnetAdapter.selectmode = false;
                 magnetAdapter.notifyDataSetChanged();
             }
-            if(action.equals("action.mutipleFavorite")){
+            if(action.equals("action.mutipleFavorite") && magnetAdapter.selectmode){
                 for(Integer selectedPosition:magnetAdapter.getSelectedList()){
                     String magLabel = magnetList.get(selectedPosition).getLabel();
                     musicPool.setFav(magLabel);
                 }
-                Intent handintent = new Intent();
-                handintent.setAction("action.favlist.refresh");
-                getActivity().sendBroadcast(handintent);
+                refreshFrag1();
                 MagnetSaver magnetSaver = new MagnetSaver();
                 magnetSaver.StackSave(musicPool.getMagnetList());
                 magnetAdapter.resetSelect();
+                initView();
+            }
+            if(action.equals("action.mutiple.delete") && magnetAdapter.selectmode){
+                for(Integer selectedPosition:magnetAdapter.getSelectedList()){
+                    String magLabel = magnetList.get(selectedPosition).getLabel();
+                    musicPool.deleteRes(magLabel);
+                }
+                refreshFrag1();
+                MagnetSaver magnetSaver = new MagnetSaver();
+                magnetSaver.StackSave(musicPool.getMagnetList());
+                magnetAdapter.resetSelect();
+                initView();
             }
         }
     };
@@ -80,6 +92,7 @@ public class Fragment2 extends Fragment {
         filter.addAction("action.mutipleSelect.frag1");
         filter.addAction("action.mutipleCancel.frag1");
         filter.addAction("action.mutipleFavorite");
+        filter.addAction("action.mutiple.delete");
         getActivity().getApplicationContext().registerReceiver(receiver, filter);
 
     }
@@ -97,6 +110,12 @@ public class Fragment2 extends Fragment {
 
     }
 
+    private void refreshFrag1(){
+        Intent handintent = new Intent();
+        handintent.setAction("action.favlist.refresh");
+        getActivity().sendBroadcast(handintent);
+    }
+
     private void initView(){
         magnetList = musicPool.getResList();
         magnetAdapter = new MagnetAdapter(getActivity(),magnetList);
@@ -111,32 +130,42 @@ public class Fragment2 extends Fragment {
         getActivity().getApplicationContext().unregisterReceiver(receiver);
     }
 
-    private void menuPop(View v, final String magLabel) {
+    private void menuPop(View v, final String magLabel, int position) {
 
         PopupMenu popupMenu = new PopupMenu(getActivity(), v);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getTitle().equals("Add to Favorate")){
-                    musicPool.setFav(magLabel);
+                if(item.getItemId() == R.id.addItem){
+                    musicPool.reverseFav(magLabel);
                     MagnetSaver magnetSaver = new MagnetSaver();
                     magnetSaver.StackSave(musicPool.getMagnetList());
-                    Intent intent = new Intent();
-                    intent.setAction("action.favlist.refresh");
-                    getActivity().sendBroadcast(intent);
+                    refreshFrag1();
                     return true;
                 }
                 if(item.getTitle().equals("Delete")) {
                     musicPool.deleteRes(magLabel);
                     musicPool.resFavList();
-                    Toast.makeText(getActivity(), "Deleted" + magLabel, Toast.LENGTH_SHORT).show();
+                    MagnetSaver magnetSaver = new MagnetSaver();
+                    magnetSaver.StackSave(musicPool.getMagnetList());
+                    Toast.makeText(getActivity(),  magLabel + " Deleted.", Toast.LENGTH_SHORT).show();
+                    refreshFrag1();
+                    initView();
                     return true;
                 }
                 return true;
             }
         });
-        //显示菜单
+
+        MenuItem item = popupMenu.getMenu().findItem(R.id.addItem);
+        if(musicPool.getIsFav(magLabel)){
+            item.setTitle("Cancel Favorite");
+        }
+        else{
+            item.setTitle("Add to Favorite");
+        }
+
         popupMenu.show();
     }
 
