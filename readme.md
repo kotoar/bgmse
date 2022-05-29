@@ -38,6 +38,6 @@ The SE resource is from the website [無料効果音](https://taira-komori.jpn.o
 ---
 
 #### Author
-Email: kona.wangd@gmail.com
+Email: me@kotoar.com
 #### 作者
-电子邮箱： kona.wangd@gmail.com
+电子邮箱： me@kotoar.com
